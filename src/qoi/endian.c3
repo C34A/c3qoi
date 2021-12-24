@@ -1,5 +1,7 @@
 module endian;
 
+import libc;
+
 /**
  * @brief a big endian uint (32bit). use get/set_val to manipulate.
  */
@@ -39,8 +41,8 @@ fn void BEUint.set_val(BEUint* this, uint newval) {
  * @return true if little endian, otherwise false
  */
 macro bool is_little_endian() {
-    uint test = 1;                         // 0x 00 00 00 01
-    char* little_end = (char*)(&test) + 3; //             ^^
+    uint test = 1;                     // 0x 01 00 00 00
+    char* little_end = (char*)(&test); //    ^^
     return (bool)(*little_end) ? true : false;
 }
 
