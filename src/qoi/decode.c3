@@ -14,15 +14,23 @@ struct PixelRGBA {
     char a;
 }
 
+struct PixelRGB {
+    char r;
+    char g;
+    char b;
+}
+
 fn PixelRGBA* decode(char[] data) {
     QOIHeader* header = (QOIHeader*)(data.ptr);
     io::printf("%s\n", libc::memcmp(&header.magic, "qoif", 4) == 0 ? "valid" : "invalid");
     io::printf("%dx%d\n", header.width.get_val(), header.height.get_val());
-    int i = $sizeof(QOIHeader);
-    int j = $sizeof(header);
-    io::printf("debug i %d j %d\n", i, j);
     io::printf("colorspace: %s (%d) %d\n", header.colorspace.to_string(), (int)(header.colorspace), (int)($sizeof(QOIHeader)));
-    io::printf("channels: %s (%hhu)\n", header.channels.to_string(), header.channels);
+    io::printf("channels: %s (%hhu)\n", header.channels.to_string().ptr, header.channels);
+
+    if (channels != RGB) {
+        return null;
+    }
+
     return null;
 }
 
